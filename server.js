@@ -15,8 +15,7 @@ const passport = require('passport')
 const Emitter = require('events')
 
 //Database connection
-const url = "mongodb://localhost/pizza";
-mongoose.connect(url , { useNewUrlParser: true, useCreateIndex:true, useUnifiedTopology: true, useFindAndModify : true });
+mongoose.connect(process.env.MONGO_CONNECTION_URL , { useNewUrlParser: true, useCreateIndex:true, useUnifiedTopology: true, useFindAndModify : true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('Database connected...');
@@ -74,16 +73,8 @@ app.set('view engine', 'ejs')
 
 require('./routes/web')(app)
 
-app.get('/cart', (req, res) => {
-    res.render('customers/cart')
-})
-
-app.get('/login', (req, res) => {
-    res.render('auth/login')
-})
-
-app.get('/register', (req, res) => {
-    res.render('auth/register')
+app.use((req, res) => {
+    res.status(404).render('errors/404')
 })
 
 const server = app.listen(PORT, () => {
