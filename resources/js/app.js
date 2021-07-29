@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Noty from 'noty'
 import {initAdmin} from './admin'
+import {initStripe}  from './stripe'
 import moment from 'moment'
 
 let addToCart = document.querySelectorAll('.add-to-cart')
@@ -74,6 +75,8 @@ function updateStatus(order) {
 }
 
 updateStatus(order);
+
+initStripe()
 
 // Socket 
 let socket = io()
